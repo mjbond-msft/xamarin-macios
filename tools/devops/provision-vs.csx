@@ -24,11 +24,15 @@ if (Directory.Exists(vs_install_path))
     var sourceDirectory = Env("BUILD_SOURCESDIRECTORY");
     Console.WriteLine($"BUILD_SOURCESDIRECTORY: {sourceDirectory}");
 
-    var vsMacVersionScript = Path.Combine(sourceDirectory, "tools", "devops", "automation", "VSMacVersion.ps1");
-    var lines = Exec("pwsh", vsMacVersionScript);
-    if (lines != null && lines.Count > 0)
+    var vs_version_current = string.Empty;
+
+    try
     {
-        vs_version_current = lines[0];
+        vs_version_current = Plist(vs_install_path).CFBundleShortVersionString;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"ERROR: Failed to retrieve the CFBundleShortVersionString setting from {Path.Join(vs_install_path, "Contents", "Info.plist")}. EXCEPTION: {ex.Message}");
     }
 
     Console.WriteLine($"vs_version_current: {vs_version_current}");
