@@ -41,6 +41,8 @@ variables:
   value: true
 - name: SigningKeychain
   value: "builder.keychain"
+- name: xma-password
+  value: $(ios-pool-keychain-password)                        # UNDONE: Either change the template to use the login keychain password for a XAMBOT- machine from KeyVault or change the image for machine in the iOS pool to use the current xma-password as set in XamarinCompatLab
 
 trigger: none
 
