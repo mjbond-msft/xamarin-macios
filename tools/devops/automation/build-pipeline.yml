@@ -196,8 +196,11 @@ jobs:
 
   # Actual build of the project
   - bash: |
+      echo "time make -C $(Build.SourcesDirectory)/xamarin-macios/ reset"
       time make -C $(Build.SourcesDirectory)/xamarin-macios/ reset
+      echo "time make -C $(Build.SourcesDirectory)/xamarin-macios/ all -j8"
       time make -C $(Build.SourcesDirectory)/xamarin-macios/ all -j8
+      echo "time make -C $(Build.SourcesDirectory)/xamarin-macios/ install -j8"
       time make -C $(Build.SourcesDirectory)/xamarin-macios/ install -j8
     displayName: 'Build'
     timeoutInMinutes: 180
