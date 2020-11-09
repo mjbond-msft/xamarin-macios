@@ -18,11 +18,51 @@ steps:
   displayName: 'Dump Environment'
 
 - bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
+- bash: |
     security set-key-partition-list -S apple-tool:,apple: -s -k $OSX_KEYCHAIN_PASS login.keychain
   env:
     OSX_KEYCHAIN_PASS: $(OSX_KEYCHAIN_PASS)
   displayName: 'Remove security UI-prompt (http://stackoverflow.com/a/40039594/183422)'
   condition: succeededOrFailed() # we do not care about the previous process cleanup
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 - task: xamops.azdevex.provisionator-task.provisionator@2
   displayName: 'Provision Brew components'
@@ -31,6 +71,26 @@ steps:
     provisioning_extra_args: '-vvvv'
   enabled: false
   timeoutInMinutes: 30
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 - bash: |
     make -C $(Build.SourcesDirectory)/xamarin-macios/tools/devops build-provisioning.csx
@@ -44,14 +104,26 @@ steps:
   enabled: false
   timeoutInMinutes: 250
 
-# Disabled
-- task: xamops.azdevex.provisionator-task.provisionator@1
-  displayName: 'Provision Objective Sharpie'
-  inputs:
-    provisioning_script: $(Build.SourcesDirectory)/xamarin-macios/tools/devops/provision-objective-sharpie.csx
-    provisioning_extra_args: '-vvvv'
-  enabled: false
-  timeoutInMinutes: 30
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 
 - task: xamops.azdevex.provisionator-task.provisionator@1
   displayName: 'Provision .NET Core'
@@ -60,6 +132,26 @@ steps:
     provisioning_extra_args: '-vvvv'
   enabled: false
   timeoutInMinutes: 30
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 - powershell: |
     if ([IO.Directory]::Exists('/Developer/MonoTouch')) {
@@ -79,6 +171,26 @@ steps:
   displayName: 'Delete library folders'
   timeoutInMinutes: 5
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 - bash:
     set -x
     set -e
@@ -87,6 +199,25 @@ steps:
   displayName: 'Clear results directory'
   timeoutInMinutes: 5
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 # the following should be using the labels in the PR, we are not yet doing so, but we will in the
 # future
@@ -103,6 +234,26 @@ steps:
   name: configuration
   displayName: "Parse PR labels"
   timeoutInMinutes: 5
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 - bash: |
     set -x
@@ -126,6 +277,26 @@ steps:
   displayName: "Configure build"
   timeoutInMinutes: 5
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 # Actual build of the project
 - bash: |
     time make -C $(Build.SourcesDirectory)/xamarin-macios/ reset
@@ -133,6 +304,26 @@ steps:
     time make -C $(Build.SourcesDirectory)/xamarin-macios/ install -j8
   displayName: 'Build'
   timeoutInMinutes: 180
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 # build not signed .pkgs for the SDK
 - bash: |
@@ -165,6 +356,26 @@ steps:
   condition: and(succeeded(), eq(variables['configuration.BuildPkgs'], 'True'))
   timeoutInMinutes: 180
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 # build nugets
 - bash: |
     set -x
@@ -182,17 +393,77 @@ steps:
   condition: and(succeeded(), eq(variables['configuration.BuildNugets'], 'True'))
   timeoutInMinutes: 180
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 - bash:  $(Build.SourcesDirectory)/xamarin-macios/tools/devops/automation/productsign.sh
   env:
     PRODUCTSIGN_KEYCHAIN_PASSWORD: $(xma-password)
   displayName: 'Signing PR Build'
   condition: and(succeeded(), eq(variables['configuration.SignPkgs'], 'True'), eq(variables['configuration.IsPr'], 'True'))
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 # HACK HACK: We shold not need to do this, the install of the certs template should be smart enough
 - bash: |
     security delete-keychain builder.keychain
   displayName: 'Remove builder keychain'
   continueOnError: true
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 - template: install-certificates.yml@templates
   parameters:
@@ -202,12 +473,52 @@ steps:
     MacDeveloper: $(mac-developer)
     HostedMacKeychainPassword: $(AzDO-OnPrem-KeychainPass)
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 # HACK HACK: brew remove python2, but the script uses python2, this is a dirty workaround
 - bash: |
     wget https://raw.githubusercontent.com/Homebrew/homebrew-core/86a44a0a552c673a05f11018459c9f5faae3becc/Formula/python@2.rb
     brew install python@2.rb
     rm python@2.rb
   displayName: 'Install Python 2 and pip'
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 - bash: |
     VIRTUAL_ENV_PATH=$(Build.SourcesDirectory)/venv
@@ -238,10 +549,50 @@ steps:
   condition: and(succeeded(), eq(variables['configuration.SignPkgs'], 'True'), eq(variables['configuration.IsPr'], 'False'))
   timeoutInMinutes: 90
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 - template: generate-workspace-info.yml@templates
   parameters:
     GitHubToken: $(GitHub.Token)
     ArtifactDirectory: $(Build.SourcesDirectory)/package-internal
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
 
 # upload each of the pkgs into the pipeline artifacts
 - task: PublishPipelineArtifact@1
@@ -251,9 +602,49 @@ steps:
     artifactName: package
   continueOnError: true
 
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
+
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Build Internal Artifacts'
   inputs:
     targetPath: $(Build.SourcesDirectory)/package-internal 
     artifactName: package-internal
   continueOnError: true
+
+- bash: |
+    echo "System keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d system`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Library/Keychains/
+
+    echo "User keychains"
+    echo "-------------"
+    keychains=`security list-keychains -d user`
+    for keychain in $keychains; do
+      echo "keychain: ${keychain}"
+    done
+
+    ls -l /Users/builder/Library/Keychains/
+  displayName: 'Show keychains'
