@@ -69,7 +69,7 @@ steps:
   inputs:
     provisioning_script: $(Build.SourcesDirectory)/xamarin-macios/tools/devops/provision-brew-packages.csx
     provisioning_extra_args: '-vvvv'
-  enabled: false
+  enabled: true
   timeoutInMinutes: 30
 
 - bash: |
@@ -97,7 +97,7 @@ steps:
   displayName: 'Generate provisionator files.'
 
 - task: xamops.azdevex.provisionator-task.provisionator@1
-  displayName: 'Provision Xcode'
+  displayName: 'Provision Frameworks'
   inputs:
     provisioning_script: $(Build.SourcesDirectory)/xamarin-macios/tools/devops/build-provisioning.csx
     provisioning_extra_args: '-vvvv'
@@ -625,7 +625,7 @@ steps:
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Build Internal Artifacts'
   inputs:
-    targetPath: $(Build.SourcesDirectory)/package-internal 
+    targetPath: $(Build.SourcesDirectory)/package-internal
     artifactName: package-internal
   continueOnError: true
 
