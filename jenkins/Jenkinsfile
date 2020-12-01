@@ -394,7 +394,14 @@ def abortExecutingBuilds ()
 
 timestamps {
     def mainMacOSVersion = 14
-    node ("xamarin-macios && macos-10.${mainMacOSVersion}") {
+    def runTestsOnMainBuildMachine = (env.MACIOS-DECOUPLE-TEST && (env.MACIOS-DECOUPLE-TEST.equalsIgnoreCase("true") || env.MACIOS-DECOUPLE-TEST == "1") ? false : true)
+    def botSelection = "xamarin-macios && macos-10.${mainMacOSVersion}"
+
+    if (!runTestsOnMainBuildMachine) {
+        botSelection = "${targetLabel} && macios-build"     // Select dedicated build machine where no tests run on that machine
+    }
+
+    node (botSelection) {
         try {
             timeout (time: 15, unit: 'HOURS') {
                 // Hard-code a workspace, since branch-based and PR-based
@@ -402,6 +409,7 @@ timestamps {
                 // wastes a lot of disk space.
                 workspace = "${env.HOME}/jenkins/workspace/xamarin-macios"
                 commentFile = "${workspace}/xamarin-macios/jenkins/pr-comments.md"
+                // Check Jenkins global variable setting MACIOS-DECOUPLE-TEST
                 withEnv ([
                     "PATH=/Library/Frameworks/Mono.framework/Versions/Current/Commands:${env.PATH}",
                     "WORKSPACE=${workspace}"
@@ -709,7 +717,7 @@ timestamps {
                                             if (indexOfElement (excludedOSes, os) >= 0) {
                                                 excluded = true
                                                 nodeText = "ℹ️ XM tests not executed on 10.${macOS} ℹ️"
-                                            } else if (os == mainMacOSVersion) {
+                                            } else if (os == mainMacOSVersion && runTestsOnMainBuildMachine) {
                                                 excluded = true
                                                 nodeText = "ℹ️ XM tests not executed on a separate 10.${macOS} bot because they're already executed as a part of the main test run ℹ️"
                                             }
@@ -718,7 +726,13 @@ timestamps {
                                                     if (excluded) {
                                                         echo (nodeText)
                                                     } else {
-                                                        node ("xamarin-macios && macos-10.${macOS}") {
+                                                        botSelection = "xamarin-macios && macos-10.${macOS}"
+                                                        if (os == mainMacOSVersion && !runTestsOnMainBuildMachine) {
+                                                            skipLocalTestRunReason = "Not running tests here because they're already being run on a dedicated test machine for macOS 10.${macOS}"
+                                                            botSelection = "${botSelection} && macios-test"
+                                                        }
+
+                                                        node (botSelection) {
                                                             stage ("Running XM tests on '10.${macOS}'") {
                                                                 runXamarinMacTests (url, "macOS 10.${macOS}", maccore_hash, gitHash)
                                                             }
