@@ -23,13 +23,13 @@ resources:
   - repository: templates
     type: github
     name: xamarin/yaml-templates
-    ref: refs/heads/main
+    ref: refs/heads/dev/bond/keychain-file-delete
     endpoint: xamarin
 
   - repository: maccore
     type: github
     name: xamarin/maccore
-    ref: refs/heads/main
+    ref: refs/heads/dev/bond/qa-provisioning
     endpoint: xamarin
 
   - repository: release-scripts
@@ -162,7 +162,7 @@ stages:
     useXamarinStorage: False
     testsLabels: '--label=run-tvos-tests,run-non-monotouch-tests,run-monotouch-tests,run-mscorlib-tests'
     statusContext: 'VSTS: device tests tvOS'
-    iOSDeviceDemand: 'tvos'
+    iOSDeviceDemand: Agent.Name -equals XAMMACTEST10
     vsdropsPrefix: ${{ variables.vsdropsPrefix }}
     keyringPass: $(xma-password)
 

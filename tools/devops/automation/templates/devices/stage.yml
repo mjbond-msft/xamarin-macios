@@ -55,7 +55,7 @@ stages:
   dependsOn:
   - build_packages
   # we need to have the pkgs built and the device sets to be ran, that is decided via the labels or type of build during the build_packages stage
-  condition: and(succeeded(), eq(dependencies.build_packages.outputs['build.configuration.RunDeviceTests'], 'True'))
+  condition: succeeded()
   jobs:
   - job: tests
     displayName: 'Run ${{ parameters.devicePrefix }} Device Tests'
@@ -74,6 +74,10 @@ stages:
         vsdropsPrefix: ${{ parameters.vsdropsPrefix }} 
         keyringPass: ${{ parameters.keyringPass }} 
         devicePrefix: ${{ parameters.devicePrefix }}
+    - template: keychains/mac/delete.v1.yml@templates
+      parameters:
+        keychain: xamarin-macios
+        keychainPasswordFile: ~/.config/xamarin-macios-keychain
 
   - job: upload_vsdrops
     displayName: 'Upload report to vsdrops'
