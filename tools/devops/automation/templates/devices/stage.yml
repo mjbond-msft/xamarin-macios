@@ -76,7 +76,7 @@ stages:
         devicePrefix: ${{ parameters.devicePrefix }}
     - template: keychains/mac/delete.v1.yml@templates
       parameters:
-        keychain: xamarin-macios
+        keychain: xamarin-macios.keychain
         keychainPasswordFile: ~/.config/xamarin-macios-keychain
 
   - job: upload_vsdrops
