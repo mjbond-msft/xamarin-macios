@@ -123,7 +123,8 @@ steps:
     set -e
     rm -f ~/Library/Caches/com.xamarin.provisionator/Provisions/*p12
     rm -f ~/Library/Caches/com.xamarin.provisionator/Provisions/*mobileprovision
-    ./maccore/tools/install-qa-provisioning-profiles.sh -v 
+    # UNDONE: remove hard coded channel setting -- enable vectoring channel setting via parameter setting
+    ./maccore/tools/install-qa-provisioning-profiles.sh -v -channel:pr/mjbond-msft/381
   displayName: 'Add provisioning profiles'
   timeoutInMinutes: 30
   env:
