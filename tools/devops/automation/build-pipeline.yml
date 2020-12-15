@@ -162,7 +162,7 @@ stages:
     useXamarinStorage: False
     testsLabels: '--label=run-tvos-tests,run-non-monotouch-tests,run-monotouch-tests,run-mscorlib-tests'
     statusContext: 'VSTS: device tests tvOS'
-    iOSDeviceDemand: Agent.Name -equals XAMMACTEST10
+    iOSDeviceDemand: Agent.Name -equals XAMTESTMAC10
     vsdropsPrefix: ${{ variables.vsdropsPrefix }}
     keyringPass: $(xma-password)
 
