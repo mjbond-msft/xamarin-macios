@@ -65,9 +65,11 @@ steps:
 - task: xamops.azdevex.provisionator-task.provisionator@1
   displayName: 'Provision Products & Frameworks'
   inputs:
-    provisionator_uri: 'https://bosstoragemirror.blob.core.windows.net/provisionator/664bd334021e3102cdef1af66c4fc9f1b2ecd2a21b47419e80d08da1f6c61c2a/pr/mjbond-msft/382'
+    provisionator_uri: 'https://bosstoragemirror.blob.core.windows.net/provisionator/664bd334021e3102cdef1af66c4fc9f1b2ecd2a21b47419e80d08da1f6c61c2a'
     provisioning_script: $(Build.SourcesDirectory)/xamarin-macios/tools/devops/build-provisioning.csx
     provisioning_extra_args: '-vvvv'
+  env:
+    PROVISIONATOR_CHANNEL: pr/mjbond-msft/382
   timeoutInMinutes: 250
 
 - bash: |
