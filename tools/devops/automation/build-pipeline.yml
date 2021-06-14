@@ -65,10 +65,12 @@ trigger:
     include:
     - '*'
 
+# UNDONE: Trigger test: xamarin-macios: Enable WebHooks #11, 13 and 14
 pr:
   autoCancel: true
   branches:
     include:
+    - yaml-pipeline
     - main
     - d16-*
 
